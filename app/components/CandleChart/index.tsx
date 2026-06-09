@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { getCandles } from '../lib/upbit';
-import type { Candle, CandleUnit, Ticker } from '../types/upbit';
+import { getCandles } from '../../lib/upbit';
+import type { Candle, CandleUnit, Ticker } from '../../types/upbit';
 import styles from './CandleChart.module.scss';
 
 interface Props {

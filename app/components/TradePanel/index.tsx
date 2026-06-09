@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { Market, Ticker } from '../types/upbit';
-import type { Portfolio, PendingOrder, ExecutedOrder } from './Dashboard';
+import type { Market, Ticker } from '../../types/upbit';
+import type { Portfolio, PendingOrder, ExecutedOrder } from '../Dashboard';
 import styles from './TradePanel.module.scss';
 
 interface Props {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { Market, Ticker } from '../types/upbit';
+import type { Market, Ticker } from '../../types/upbit';
 import styles from './CoinList.module.scss';
 
 interface Props {

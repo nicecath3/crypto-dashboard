@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { Market, Ticker } from '../types/upbit';
-import { useTheme } from '../contexts/ThemeContext';
+import type { Market, Ticker } from '../../types/upbit';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './CoinPanel.module.scss';
 
 interface Props {

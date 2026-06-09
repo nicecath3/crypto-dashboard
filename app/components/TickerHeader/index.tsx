@@ -1,6 +1,6 @@
 'use client';
 
-import type { Market, Ticker } from '../types/upbit';
+import type { Market, Ticker } from '../../types/upbit';
 import styles from './TickerHeader.module.scss';
 
 interface Props {

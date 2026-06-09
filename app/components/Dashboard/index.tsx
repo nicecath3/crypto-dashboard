@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { getKRWMarkets } from '../lib/upbit';
-import { useUpbitTicker } from '../hooks/useUpbitTicker';
-import { CoinPanel } from './CoinPanel';
-import { TickerHeader } from './TickerHeader';
-import { CandleChart } from './CandleChart';
-import { TradePanel } from './TradePanel';
-import { DisclaimerModal } from './DisclaimerModal';
-import type { Market } from '../types/upbit';
+import { getKRWMarkets } from '../../lib/upbit';
+import { useUpbitTicker } from '../../hooks/useUpbitTicker';
+import { CoinPanel } from '../CoinPanel';
+import { TickerHeader } from '../TickerHeader';
+import { CandleChart } from '../CandleChart';
+import { TradePanel } from '../TradePanel';
+import { DisclaimerModal } from '../DisclaimerModal';
+import type { Market } from '../../types/upbit';
 import styles from './Dashboard.module.scss';
 
 export interface Portfolio {
