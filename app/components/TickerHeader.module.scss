@@ -1,0 +1,52 @@
+@use '../styles/tokens' as *;
+
+.header {
+  padding: 16px 20px;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.korean { font-size: $font-size-lg; font-weight: 700; color: $text-primary; }
+.market { font-size: $font-size-xs; color: $text-muted; }
+
+.price {
+  font-size: $font-size-xl;
+  font-weight: 700;
+  &--up { color: $color-up; }
+  &--down { color: $color-down; }
+  &--neutral { color: $text-primary; }
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.statLabel { font-size: $font-size-xs; color: $text-muted; }
+.statValue { font-size: $font-size-sm; color: $text-secondary; font-weight: 500; }
+
+.change {
+  font-size: $font-size-md;
+  font-weight: 600;
+  &--up { color: $color-up; }
+  &--down { color: $color-down; }
+  &--neutral { color: $color-neutral; }
+}

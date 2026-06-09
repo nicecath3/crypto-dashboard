@@ -1,0 +1,78 @@
+@use '../styles/tokens' as *;
+
+.container {
+  width: 280px;
+  flex-shrink: 0;
+  background: $bg-surface;
+  border-right: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.search {
+  padding: 12px;
+  border-bottom: 1px solid $border-color;
+
+  input {
+    width: 100%;
+    background: $bg-elevated;
+    border: 1px solid $border-color;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    padding: 8px 12px;
+    font-size: $font-size-sm;
+    outline: none;
+
+    &::placeholder { color: $text-muted; }
+    &:focus { border-color: $color-primary; }
+  }
+}
+
+.list {
+  overflow-y: auto;
+  flex: 1;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: $bg-elevated; border-radius: 2px; }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background $transition;
+  border-bottom: 1px solid $border-color;
+
+  &:hover { background: $bg-hover; }
+  &--active { background: $bg-hover; border-left: 2px solid $color-primary; }
+}
+
+.itemLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.korean { font-size: $font-size-sm; color: $text-primary; font-weight: 500; }
+.code { font-size: $font-size-xs; color: $text-muted; }
+
+.itemRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.price { font-size: $font-size-sm; color: $text-primary; font-weight: 500; }
+
+.change {
+  font-size: $font-size-xs;
+  font-weight: 600;
+  &--up { color: $color-up; }
+  &--down { color: $color-down; }
+  &--neutral { color: $color-neutral; }
+}

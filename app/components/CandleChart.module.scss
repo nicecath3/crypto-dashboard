@@ -1,0 +1,44 @@
+@use '../styles/tokens' as *;
+
+.container {
+  flex: 1;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+
+.toolbar {
+  display: flex;
+  gap: 6px;
+}
+
+.btn {
+  padding: 4px 12px;
+  border-radius: $radius-sm;
+  border: 1px solid $border-color;
+  background: transparent;
+  color: $text-secondary;
+  font-size: $font-size-xs;
+  cursor: pointer;
+  transition: all $transition;
+
+  &:hover { background: $bg-hover; color: $text-primary; }
+  &--active { background: $color-primary; border-color: $color-primary; color: #fff; }
+}
+
+.chart {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-muted;
+  font-size: $font-size-sm;
+}

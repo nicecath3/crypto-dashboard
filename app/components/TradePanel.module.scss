@@ -1,0 +1,395 @@
+@use '../styles/tokens' as *;
+
+.panel {
+  width: 300px;
+  flex-shrink: 0;
+  background: $bg-surface;
+  border-radius: $radius-lg;
+  border: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid $border-color;
+}
+
+.tab {
+  flex: 1;
+  padding: 11px 0;
+  background: none;
+  border: none;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all $transition;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: $text-muted;
+
+  &--buy { &.tab--active { color: $color-up; border-bottom-color: $color-up; } }
+  &--sell { &.tab--active { color: $color-down; border-bottom-color: $color-down; } }
+  &--history { &.tab--active { color: $text-primary; border-bottom-color: $color-primary; } }
+
+  &:hover:not(&--active) { color: $text-secondary; }
+}
+
+.orderTypeRow {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px 0;
+}
+
+.orderTypeBtn {
+  flex: 1;
+  padding: 6px 0;
+  background: $bg-elevated;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-muted;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition;
+
+  &--active {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+
+  &:hover:not(&--active) { color: $text-secondary; }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-up;
+  color: #fff;
+  font-size: 10px;
+  font-weight: $font-weight-bold;
+  border-radius: 8px;
+  padding: 1px 5px;
+  margin-left: 4px;
+  line-height: 1.4;
+}
+
+.cancelBtn {
+  padding: 3px 8px;
+  background: none;
+  border: 1px solid $color-down;
+  border-radius: $radius-sm;
+  color: $color-down;
+  font-size: $font-size-xs;
+  cursor: pointer;
+  transition: all $transition;
+  flex-shrink: 0;
+
+  &:hover { background: rgba(23, 99, 182, 0.1); }
+}
+
+.body {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.balance {
+  background: $bg-elevated;
+  border-radius: $radius-md;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.balanceLabel {
+  font-size: $font-size-xs;
+  color: $text-muted;
+}
+
+.balanceValue {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: $font-size-xs;
+  color: $text-muted;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  background: $bg-elevated;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  transition: border-color $transition;
+
+  &:focus-within { border-color: $color-primary; }
+}
+
+.input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: $text-primary;
+  font-size: $font-size-sm;
+  padding: 8px 10px;
+  outline: none;
+  min-width: 0;
+
+  &::placeholder { color: $text-muted; }
+
+  // 스피너 화살표 제거
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  &[type=number] { -moz-appearance: textfield; }
+}
+
+.unit {
+  padding: 0 10px;
+  font-size: $font-size-xs;
+  color: $text-muted;
+  border-left: 1px solid $border-color;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.percentRow {
+  display: flex;
+  gap: 4px;
+}
+
+.percentBtn {
+  flex: 1;
+  padding: 5px 0;
+  background: $bg-elevated;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-size: $font-size-xs;
+  cursor: pointer;
+  transition: all $transition;
+
+  &:hover { background: $bg-hover; color: $text-primary; }
+}
+
+.total {
+  background: $bg-elevated;
+  border-radius: $radius-sm;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.totalLabel { font-size: $font-size-xs; color: $text-muted; }
+.totalValue { font-size: $font-size-sm; font-weight: $font-weight-semibold; color: $text-primary; }
+
+.feeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2px;
+}
+
+.feeLabel { font-size: $font-size-xs; color: $text-muted; }
+.feeValue { font-size: $font-size-xs; color: $text-muted; }
+
+.submitBtn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: $radius-md;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  cursor: pointer;
+  transition: opacity $transition;
+
+  &:hover { opacity: 0.85; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &--buy { background: $color-up; color: #fff; }
+  &--sell { background: $color-down; color: #fff; }
+}
+
+.holdings {
+  background: $bg-elevated;
+  border-radius: $radius-md;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.holdingsLabel { font-size: $font-size-xs; color: $text-muted; }
+
+.holdingsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.holdingsAmount { font-size: $font-size-sm; color: $text-primary; font-weight: $font-weight-medium; }
+
+.holdingsPnl {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  &--up { color: $color-up; }
+  &--down { color: $color-down; }
+}
+
+.filterRow {
+  padding: 10px 14px;
+  border-bottom: 1px solid $border-color;
+  flex-shrink: 0;
+}
+
+.filterSelect {
+  width: 100%;
+  padding: 6px 10px;
+  background: $bg-elevated;
+  border: 1px solid $border-color;
+  border-radius: $radius-sm;
+  color: $text-primary;
+  font-size: $font-size-xs;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23888' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  transition: border-color $transition;
+
+  &:focus { border-color: $color-primary; }
+
+  option { background: var(--bg-elevated); color: var(--text-primary); }
+}
+
+.historyList {
+  flex: 1;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb { background: $bg-elevated; border-radius: 2px; }
+}
+
+.historyItem {
+  padding: 10px 14px;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  &:hover { background: $bg-hover; }
+}
+
+.historyTop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.historyType {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  padding: 2px 6px;
+  border-radius: $radius-sm;
+
+  &--buy { background: rgba(226, 43, 43, 0.15); color: $color-up; }
+  &--sell { background: rgba(23, 99, 182, 0.15); color: $color-down; }
+}
+
+.historyName {
+  font-size: $font-size-xs;
+  color: $text-primary;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.historyDate {
+  font-size: $font-size-xs;
+  color: $text-muted;
+  flex-shrink: 0;
+}
+
+.historyBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.historyDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: $font-size-xs;
+  color: $text-muted;
+  flex: 1;
+  min-width: 0;
+}
+
+.historyTotal {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $text-secondary;
+}
+
+.historyFee {
+  font-size: 10px;
+  font-weight: 400;
+  color: $text-muted;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  color: $text-muted;
+  font-size: $font-size-sm;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $bg-elevated;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: 10px 20px;
+  font-size: $font-size-sm;
+  color: $text-primary;
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
