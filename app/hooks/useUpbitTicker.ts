@@ -11,20 +11,13 @@ async function fetchAllTickers(markets: string[]): Promise<Ticker[]> {
 
   const results: Ticker[][] = [];
   for (const chunk of chunks) {
-    let res: Response | null = null;
-    for (let retry = 0; retry < 5; retry++) {
-      try {
-        res = await fetch(`https://api.upbit.com/v1/ticker?markets=${chunk.join(',')}`);
-        if (res.status !== 429) break;
-      } catch {}
-      await new Promise((r) => setTimeout(r, 800 * (retry + 1)));
-    }
     try {
-      results.push(res ? await res.json() : []);
+      const res = await fetch(`/api/tickers?markets=${chunk.join(',')}`);
+      results.push(await res.json());
     } catch {
       results.push([]);
     }
-    await new Promise((r) => setTimeout(r, 200));
+    if (chunks.length > 1) await new Promise((r) => setTimeout(r, 150));
   }
   return results.flat();
 }
