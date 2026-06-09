@@ -20,9 +20,11 @@ async function fetchAllTickers(markets: string[]): Promise<Ticker[]> {
 
 export function useUpbitTicker(markets: string[]) {
   const [tickers, setTickers] = useState<Record<string, Ticker>>({});
-  const abortRef = useRef<AbortController | null>(null);
+  const wsRef = useRef<WebSocket | null>(null);
+  const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const marketsKey = markets.join(',');
 
-  // 초기 시세
+  // 초기 시세 (REST)
   useEffect(() => {
     if (markets.length === 0) return;
     fetchAllTickers(markets).then((list) => {
@@ -30,63 +32,63 @@ export function useUpbitTicker(markets: string[]) {
       list.forEach((t) => (map[t.market] = t));
       setTickers(map);
     });
-  }, [markets.join(',')]);
+  }, [marketsKey]);
 
-  // SSE 스트림 (서버 → 업비트 WS 중계)
+  // 브라우저 WebSocket으로 직접 연결
   useEffect(() => {
     if (markets.length === 0) return;
 
-    abortRef.current?.abort();
-    const controller = new AbortController();
-    abortRef.current = controller;
+    let destroyed = false;
 
-    const connect = async () => {
-      try {
-        const res = await fetch('/api/ticker', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ markets }),
-          signal: controller.signal,
-        });
+    const connect = () => {
+      if (destroyed) return;
 
-        if (!res.body) return;
+      const ws = new WebSocket('wss://api.upbit.com/websocket/v1');
+      wsRef.current = ws;
 
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = '';
+      ws.binaryType = 'arraybuffer';
 
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
+      ws.onopen = () => {
+        ws.send(
+          JSON.stringify([
+            { ticket: `web-${Date.now()}` },
+            { type: 'ticker', codes: markets },
+          ])
+        );
+      };
 
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n\n');
-          buffer = lines.pop() ?? '';
-
-          for (const line of lines) {
-            const data = line.replace(/^data: /, '').trim();
-            if (!data) continue;
-            try {
-              const ticker: Ticker = JSON.parse(data);
-              if (ticker?.market) {
-                setTickers((prev) => ({ ...prev, [ticker.market]: ticker }));
-              }
-            } catch {}
+      ws.onmessage = (e) => {
+        try {
+          const text = typeof e.data === 'string'
+            ? e.data
+            : new TextDecoder().decode(e.data);
+          const raw = JSON.parse(text);
+          const ticker: Ticker = { ...raw, market: raw.market ?? raw.code };
+          if (ticker.market) {
+            setTickers((prev) => ({ ...prev, [ticker.market]: ticker }));
           }
+        } catch {}
+      };
+
+      ws.onclose = () => {
+        if (!destroyed) {
+          reconnectTimer.current = setTimeout(connect, 3000);
         }
-      } catch (e: any) {
-        if (e?.name === 'AbortError') return;
-        // 연결 끊기면 3초 후 재시도
-        setTimeout(connect, 3000);
-      }
+      };
+
+      ws.onerror = () => {
+        ws.close();
+      };
     };
 
     connect();
 
     return () => {
-      abortRef.current?.abort();
+      destroyed = true;
+      if (reconnectTimer.current) clearTimeout(reconnectTimer.current);
+      wsRef.current?.close();
     };
-  }, [markets.join(',')]);
+  }, [marketsKey]);
 
   return tickers;
 }
